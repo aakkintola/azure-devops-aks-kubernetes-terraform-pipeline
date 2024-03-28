@@ -104,3 +104,39 @@ stages:
                 environmentServiceName: 'akintola-terraform-aks-azurerm-svc-con'
                 commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false 
+
+- stage: DeployDevEnv
+  displayName: 'DeployDevEnv'
+  jobs:
+      - job: DeployToKubernetesJob
+        displayName: 'Deploy to Kubernetes'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+        - task: Kubernetes@1
+          inputs:
+            connectionType: 'Azure Resource Manager'
+            azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
+            azureResourceGroup: 'akintola-capstone-project'
+            kubernetesCluster: 'akintola-capstone-project-dev-cluster'
+            namespace: 'default'
+            command: 'apply'
+            arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/02-NginxApp1-NameSpace.yml'
+            secretType: 'dockerRegistry'
+            containerRegistryType: 'Azure Container Registry'
+            azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
+            azureContainerRegistry: 'akintolacr.azurecr.io'
+
+        - task: Kubernetes@1
+          inputs:
+            connectionType: 'Azure Resource Manager'
+            azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
+            azureResourceGroup: 'akintola-capstone-project-dev'
+            kubernetesCluster: 'akintola-capstone-project-dev-cluster'
+            namespace: 'dev'
+            command: 'apply'
+            arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/01-NginxApp1-Deployment.yml'
+            secretType: 'dockerRegistry'
+            containerRegistryType: 'Azure Container Registry'
+            azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
+            azureContainerRegistry: 'akintolacr.azurecr.io'
