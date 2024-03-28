@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app1-nginx-deployment
-  namespace: dev # Add your namespace name here
+  namespace: dev 
   labels:
     app: app1-nginx
 spec:
@@ -20,7 +20,7 @@ spec:
           image: stacksimplify/kube-nginxapp1:1.0.0
           ports:
             - containerPort: 80
-      # To schedule pods based on NodeSelectors
+
       nodeSelector:
         app: system-apps
 
@@ -29,7 +29,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app1-nginx-clusterip-service
-  namespace: your-namespace-name  # Add your namespace name here
+  namespace: dev  
   labels:
     app: app1-nginx
 spec:
