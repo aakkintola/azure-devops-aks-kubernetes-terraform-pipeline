@@ -117,7 +117,7 @@ stages:
           inputs:
             connectionType: 'Azure Resource Manager'
             azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
-            azureResourceGroup: 'akintola-capstone-project'
+            azureResourceGroup: 'akintola-capstone-project-dev'
             kubernetesCluster: 'akintola-capstone-project-dev-cluster'
             namespace: 'default'
             command: 'apply'
