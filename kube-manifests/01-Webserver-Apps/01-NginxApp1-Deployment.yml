@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app1-nginx-deployment
+  namespace: dev # Add your namespace name here
   labels:
     app: app1-nginx
 spec:
@@ -23,6 +24,18 @@ spec:
       nodeSelector:
         app: system-apps
 
-
-
-   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-nginx-clusterip-service
+  namespace: your-namespace-name  # Add your namespace name here
+  labels:
+    app: app1-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: app1-nginx
+  ports:
+    - port: 80
+      targetPort: 80
