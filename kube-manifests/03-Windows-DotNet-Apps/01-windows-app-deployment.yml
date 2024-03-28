@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: windows-app1-deployment
+  labels:
+    app: windows-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: windows-app1  
+  template:
+    metadata:
+      labels:
+        app: windows-app1
+    spec:
+      nodeSelector:  # Node selector should be placed directly under spec, not under template.metadata
+        app: dotnet-apps  # Correct nodeSelector format
+      containers:
+      - name: windows-app1
+        image: mcr.microsoft.com/dotnet/framework/samples:aspnetapp
+        resources:
+          limits:
+            cpu: "1"  # CPU limits and requests should be string values
+            memory: "800Mi"  # Correct memory units (MiB)
+          requests:
+            cpu: "1"
+            memory: "300Mi"
+        ports:
+        - containerPort: 80
+
