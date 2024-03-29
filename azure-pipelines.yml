@@ -49,7 +49,7 @@ stages:
           backendAzureRmResourceGroupName: 'akintola-capstone-project'
           backendAzureRmStorageAccountName: 'akterraformstatexlrwdrzs'
           backendAzureRmContainerName: 'akintola-tfstatefiles'
-          backendAzureRmKey: 'aks-base.tfstate'
+          backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
           allowTelemetryCollection: false
       - task: TerraformCLI@0
         displayName: Terraform Validate
@@ -92,7 +92,7 @@ stages:
                 backendAzureRmResourceGroupName: 'akintola-capstone-project'
                 backendAzureRmStorageAccountName: 'akterraformstatexlrwdrzs'
                 backendAzureRmContainerName: 'akintola-tfstatefiles'
-                backendAzureRmKey: 'aks-base.tfstate'
+                backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Plan
