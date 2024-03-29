@@ -92,7 +92,7 @@ stages:
                 backendAzureRmResourceGroupName: 'akintola-capstone-project'
                 backendAzureRmStorageAccountName: 'akterraformstatexlrwdrzs'
                 backendAzureRmContainerName: 'akintola-tfstatefiles'
-                backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
+                backendAzureRmKey: 'aks-base.tfstate'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Plan
