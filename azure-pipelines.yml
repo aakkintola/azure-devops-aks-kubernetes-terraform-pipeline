@@ -105,50 +105,50 @@ stages:
                 commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false 
 
-- stage: DeployDevEnv
-  displayName: 'DeployDevEnv'
-  jobs:
-      - job: DeployToKubernetesJob
-        displayName: 'Deploy to Kubernetes'
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-        - task: DownloadSecureFile@1
-          displayName: Download SSH Key
-          name: sshkey
-          inputs:
-            secureFile: 'akintola-aks-terraform-devops-ssh-key-ububtu.pub'
+# - stage: DeployDevEnv
+#   displayName: 'DeployDevEnv'
+#   jobs:
+#       - job: DeployToKubernetesJob
+#         displayName: 'Deploy to Kubernetes'
+#         pool:
+#           vmImage: 'ubuntu-latest'
+#         steps:
+#         - task: DownloadSecureFile@1
+#           displayName: Download SSH Key
+#           name: sshkey
+#           inputs:
+#             secureFile: 'akintola-aks-terraform-devops-ssh-key-ububtu.pub'
           
-        - script: |
-            wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
-            unzip kubelogin-linux-amd64.zip
-            sudo mv kubelogin /usr/local/bin/kubelogin
-            rm kubelogin-linux-amd64.zip
-          displayName: Install kubelogin
-        - task: Kubernetes@1
-          inputs:
-            connectionType: 'Azure Resource Manager'
-            azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
-            azureResourceGroup: 'akintola-capstone-project-dev'
-            kubernetesCluster: 'akintola-capstone-project-dev-cluster'
-            namespace: 'default'
-            command: 'apply'
-            arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/02-NginxApp1-NameSpace.yml'
-            secretType: 'dockerRegistry'
-            containerRegistryType: 'Azure Container Registry'
-            azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
-            azureContainerRegistry: 'akintolacr.azurecr.io'
+#         - script: |
+#             wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
+#             unzip kubelogin-linux-amd64.zip
+#             sudo mv kubelogin /usr/local/bin/kubelogin
+#             rm kubelogin-linux-amd64.zip
+#           displayName: Install kubelogin
+#         - task: Kubernetes@1
+#           inputs:
+#             connectionType: 'Azure Resource Manager'
+#             azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
+#             azureResourceGroup: 'akintola-capstone-project-dev'
+#             kubernetesCluster: 'akintola-capstone-project-dev-cluster'
+#             namespace: 'default'
+#             command: 'apply'
+#             arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/02-NginxApp1-NameSpace.yml'
+#             secretType: 'dockerRegistry'
+#             containerRegistryType: 'Azure Container Registry'
+#             azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
+#             azureContainerRegistry: 'akintolacr.azurecr.io'
 
-        - task: Kubernetes@1
-          inputs:
-            connectionType: 'Azure Resource Manager'
-            azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
-            azureResourceGroup: 'akintola-capstone-project-dev'
-            kubernetesCluster: 'akintola-capstone-project-dev-cluster'
-            namespace: 'dev'
-            command: 'apply'
-            arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/01-NginxApp1-Deployment.yml'
-            secretType: 'dockerRegistry'
-            containerRegistryType: 'Azure Container Registry'
-            azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
-            azureContainerRegistry: 'akintolacr.azurecr.io'
+#         - task: Kubernetes@1
+#           inputs:
+#             connectionType: 'Azure Resource Manager'
+#             azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
+#             azureResourceGroup: 'akintola-capstone-project-dev'
+#             kubernetesCluster: 'akintola-capstone-project-dev-cluster'
+#             namespace: 'dev'
+#             command: 'apply'
+#             arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/01-NginxApp1-Deployment.yml'
+#             secretType: 'dockerRegistry'
+#             containerRegistryType: 'Azure Container Registry'
+#             azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
+#             azureContainerRegistry: 'akintolacr.azurecr.io'
