@@ -6,16 +6,10 @@ pool:
 
 # Define Variables
 variables:
-- name: DEV_ENVIRONMENT
+- name: ENVIRONMENT
   value: dev 
-- name: QA_ENVIRONMENT
-  value: qa 
 
 # Stage-1: Terraform Validate Stage
-## Step-1: Publish Artifacts to Pipeline (Pipeline artifacts provide a way to share files between stages in a pipeline or between different pipelines. )
-## Step-2: Install Latest Terraform (0.13.5) (Ideally not needed if we use default Ubuntu Agents)
-## Step-3: Validate Terraform Manifests (terraform init, terraform validate)
-
 stages:
 - stage: TerraformValidate
   jobs:
@@ -58,21 +52,36 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
           allowTelemetryCollection: false      
 
-# Stage-2: Deploy Stages for Dev & QA
-# Deployment-1: Deploy Dev AKS Cluster
-## Step-1: Define Variables for environments
-## Step-2: Download SSH Secure File
-## Step-3: Terraform Initialize (State Storage to store in Azure Storage Account for Dev AKS Cluster)
-## Step-4: Terraform Plan (Create Plan)
-## Step-5: Terraform Apply (Use the plan created in previous step) 
+# Stage-2: Check Resource Existence
+- stage: CheckResourceExistence
+  dependsOn: TerraformValidate
+  jobs:
+    - job: CheckResourceExistenceJob
+      steps:
+      - script: |
+          # Extracting the resource count from the state file
+          RESOURCE_COUNT=$(terraform state list | wc -l)
           
+          # Check if any resources exist
+          if [ $RESOURCE_COUNT -gt 0 ]; then
+            echo "Resources already exist. Setting variable to true."
+            echo "##vso[task.setvariable variable=ResourceExists]true"
+          else
+            echo "No resources found. Setting variable to false."
+            echo "##vso[task.setvariable variable=ResourceExists]false"
+          fi
+        displayName: 'Check Resource Existence'
+
+# Stage-3: Deploy Stages for Dev & QA
 - stage: DeployAKSClusters
+  dependsOn: CheckResourceExistence
+  condition: eq(dependencies.CheckResourceExistence.outputs['CheckResourceExistenceJob.ResourceExists'], 'false')
   jobs:
     - deployment: DeployDevAKSCluster
       displayName: DeployDevAKSCluster
       pool:
         vmImage: 'ubuntu-latest'
-      environment: $(DEV_ENVIRONMENT)      
+      environment: $(ENVIRONMENT)      
       strategy:
         runOnce:
           deploy:
@@ -92,7 +101,7 @@ stages:
                 backendAzureRmResourceGroupName: 'akintola-capstone-project'
                 backendAzureRmStorageAccountName: 'akterraformstatexlrwdrzs'
                 backendAzureRmContainerName: 'akintola-tfstatefiles'
-                backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
+                backendAzureRmKey: 'aks-$(ENVIRONMENT).tfstate'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Plan
@@ -100,7 +109,7 @@ stages:
                 command: 'plan'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceName: 'akintola-terraform-aks-azurerm-svc-con'
-                commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
+                commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Apply
@@ -108,53 +117,5 @@ stages:
                 command: 'apply'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceName: 'akintola-terraform-aks-azurerm-svc-con'
-                commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
+                commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false 
-
-# - stage: DeployDevEnv
-#   displayName: 'DeployDevEnv'
-#   jobs:
-#       - job: DeployToKubernetesJob
-#         displayName: 'Deploy to Kubernetes'
-#         pool:
-#           vmImage: 'ubuntu-latest'
-#         steps:
-#         - task: DownloadSecureFile@1
-#           displayName: Download SSH Key
-#           name: sshkey
-#           inputs:
-#             secureFile: 'akintola-aks-terraform-devops-ssh-key-ububtu.pub'
-          
-#         - script: |
-#             wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
-#             unzip kubelogin-linux-amd64.zip
-#             sudo mv kubelogin /usr/local/bin/kubelogin
-#             rm kubelogin-linux-amd64.zip
-#           displayName: Install kubelogin
-#         - task: Kubernetes@1
-#           inputs:
-#             connectionType: 'Azure Resource Manager'
-#             azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
-#             azureResourceGroup: 'akintola-capstone-project-dev'
-#             kubernetesCluster: 'akintola-capstone-project-dev-cluster'
-#             namespace: 'default'
-#             command: 'apply'
-#             arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/02-NginxApp1-NameSpace.yml'
-#             secretType: 'dockerRegistry'
-#             containerRegistryType: 'Azure Container Registry'
-#             azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
-#             azureContainerRegistry: 'akintolacr.azurecr.io'
-
-#         - task: Kubernetes@1
-#           inputs:
-#             connectionType: 'Azure Resource Manager'
-#             azureSubscriptionEndpoint: 'akintola-terraform-aks-azurerm-svc-con'
-#             azureResourceGroup: 'akintola-capstone-project-dev'
-#             kubernetesCluster: 'akintola-capstone-project-dev-cluster'
-#             namespace: 'dev'
-#             command: 'apply'
-#             arguments: '-f $(System.DefaultWorkingDirectory)/kube-manifests/01-Webserver-Apps/01-NginxApp1-Deployment.yml'
-#             secretType: 'dockerRegistry'
-#             containerRegistryType: 'Azure Container Registry'
-#             azureSubscriptionEndpointForSecrets: 'akintola-terraform-aks-azurerm-svc-con'
-#             azureContainerRegistry: 'akintolacr.azurecr.io'
