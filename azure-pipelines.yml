@@ -23,10 +23,16 @@ stages:
       continueOnError: false
       steps:
       - task: PublishPipelineArtifact@1
-        displayName: Publish Artifacts
+        displayName: Publish Terraform Artifacts
         inputs:
           targetPath: '$(System.DefaultWorkingDirectory)/terraform-manifests'
           artifact: 'terraform-manifests-out'
+          publishLocation: 'pipeline'
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Kube Artifacts
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/kube-manifests'
+          artifact: 'kube-manifests-out'
           publishLocation: 'pipeline'
       - task: TerraformInstaller@1
         displayName: Terraform Install
