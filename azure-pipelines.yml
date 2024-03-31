@@ -6,7 +6,7 @@ pool:
 
 # Define Variables
 variables:
-  tag: 'latest'  # Fixed tag to use in the pipeline
+  tag: '$(Build.BuildId)'  # Fixed tag to use in the pipeline
   DEV_ENVIRONMENT: 'dev'
   QA_ENVIRONMENT: 'qa'
   imageName: 'portfolio-app'
