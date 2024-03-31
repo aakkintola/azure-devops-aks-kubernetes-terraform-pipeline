@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-nginx-deployment
+  name: portfolio-deployment
   namespace: qa 
   labels:
-    app: app1-nginx
+    app: portfolio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app1-nginx
+      app: portfolio
   template:
     metadata:
       labels:
-        app: app1-nginx
+        app: portfolio
     spec:
       containers:
-        - name: app1-nginx
+        - name: portfolio
           image: akintolacr.azurecr.io/portfolio-app:latest
           ports:
             - containerPort: 8045
@@ -28,14 +28,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app1-nginx-clusterip-service
+  name: portfolio-clusterip-service
   namespace: qa  
   labels:
-    app: app1-nginx
+    app: portfolio
 spec:
   type: LoadBalancer
   selector:
-    app: app1-nginx
+    app: portfolio
   ports:
     - port: 80
       targetPort: 8045
