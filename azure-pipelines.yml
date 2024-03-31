@@ -33,8 +33,9 @@ stages:
         containerRegistry: 'akintolacr'
         repository: 'portfolio-app'
         command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
         tags: |
-          $(tag) 
+          $(tag)
           $(Build.SourceVersion)
 # - stage: TerraformValidate
 #   jobs:
