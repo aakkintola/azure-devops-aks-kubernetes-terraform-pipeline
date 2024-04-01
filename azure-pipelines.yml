@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest-arm64'
+  vmImage: 'ubuntu-latest'
 
 # Define Variables
 variables:
@@ -24,14 +24,14 @@ stages:
   - job: Build
     displayName: Build Job
     pool:
-      vmImage: 'ubuntu-latest-arm64'
+      vmImage: 'ubuntu-latest'
     steps: 
 
     # Task-1: Build Docker Image and push to Azure Container Registry ACR
     - task: Docker@2
       inputs:
         containerRegistry: 'akintolacr'
-        repository: 'portfolio-app'
+        repository: 'hello-world'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
