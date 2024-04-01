@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: hello-world-deployment
   namespace: prod
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: hello-world
-  replicas: 1
   template:
     metadata:
       labels:
@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: akintolacr.azurecr.io/hello-world:latest
+        image: akintolacr.azure.io/hello-world-image:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -27,9 +27,7 @@ metadata:
 spec:
   selector:
     app: hello-world
-  type: NodePort
   ports:
   - protocol: "TCP"
     port: 80
-    targetPort: 5000
-    nodePort: 30000
+    targetPort: 3000
