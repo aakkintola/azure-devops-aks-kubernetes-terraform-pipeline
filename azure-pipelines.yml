@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest-arm64'
 
 # Define Variables
 variables:
@@ -24,7 +24,7 @@ stages:
   - job: Build
     displayName: Build Job
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-latest-arm64'
     steps: 
 
     # Task-1: Build Docker Image and push to Azure Container Registry ACR
