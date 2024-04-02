@@ -22,7 +22,6 @@ spec:
         ports:
         - containerPort: 80
         imagePullPolicy: Always
-    progressDeadlineSeconds: 600
 ---
 
 # QA Service

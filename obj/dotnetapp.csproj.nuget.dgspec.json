@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\dotnetapp\\dotnetapp.csproj": {}
+    "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\azure-devops-aks-kubernetes-terraform-pipeline\\dotnetapp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\dotnetapp\\dotnetapp.csproj": {
+    "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\azure-devops-aks-kubernetes-terraform-pipeline\\dotnetapp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\dotnetapp\\dotnetapp.csproj",
+        "projectUniqueName": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\azure-devops-aks-kubernetes-terraform-pipeline\\dotnetapp.csproj",
         "projectName": "dotnetapp",
-        "projectPath": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\dotnetapp\\dotnetapp.csproj",
+        "projectPath": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\azure-devops-aks-kubernetes-terraform-pipeline\\dotnetapp.csproj",
         "packagesPath": "C:\\Users\\User17\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\dotnetapp\\obj\\",
+        "outputPath": "C:\\Users\\User17\\Desktop\\capstone-project\\pipeline-project\\azure-devops-aks-kubernetes-terraform-pipeline\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User17\\AppData\\Roaming\\NuGet\\NuGet.Config",
