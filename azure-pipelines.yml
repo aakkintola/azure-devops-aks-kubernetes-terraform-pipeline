@@ -9,7 +9,7 @@ variables:
   tag: 'latest'  # Fixed tag to use in the pipeline
   DEV_ENVIRONMENT: 'dev'
   QA_ENVIRONMENT: 'qa'
-  imageName: 'flask'
+  imageName: 'dotnetapp'
   acrName: 'akintolacr.azurecr.io'
 
 # Stage-1: Terraform Validate Stage
@@ -31,7 +31,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'akintolacr'
-        repository: 'flask'
+        repository: 'dotnetapp'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |

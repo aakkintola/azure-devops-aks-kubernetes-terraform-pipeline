@@ -2,25 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-deployment
+  name: dotnetapp-deployment
   namespace: dev
   labels:
-    app: flask
+    app: dotnetapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask
+      app: dotnetapp
   template:
     metadata:
       labels:
-        app: flask
+        app: dotnetapp
     spec:
       containers:
-      - name: flask
-        image: akintolacr.azurecr.io/flask:latest
+      - name: dotnetapp
+        image: akintolacr.azurecr.io/dotnetapp:latest
         ports:
-        - containerPort: 8000
+        - containerPort: 80
         imagePullPolicy: Always
 ---
 
@@ -28,13 +28,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service
+  name: dotnetapp-service
   namespace: dev
 spec:
   selector:
-    app: flask
+    app: dotnetapp
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8000
+    targetPort: 80
   type: ClusterIP
