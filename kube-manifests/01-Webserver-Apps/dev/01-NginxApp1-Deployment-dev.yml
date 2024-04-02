@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: dotnetapp
-        image: akintolacr.azurecr.io/testapp:latest
+        image: akintolacr.azurecr.io/dotnetapp:latest
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
@@ -35,6 +35,6 @@ spec:
     app: dotnetapp
   ports:
   - protocol: TCP
-    port: 80
+    port: 8000
     targetPort: 8080
   type: ClusterIP
