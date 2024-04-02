@@ -1,42 +1,41 @@
+# Prod Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-nginx-deployment
+  name: dotnetapp-deployment
   namespace: prod
   labels:
-    app: app1-nginx
+    app: dotnetapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app1-nginx
+      app: dotnetapp
   template:
     metadata:
       labels:
-        app: app1-nginx
+        app: dotnetapp
     spec:
       containers:
-        - name: app1-nginx
-          image: akintolacr.azurecr.io/dotnetapp:latest
-          ports:
-            - containerPort: 80
-          imagePullPolicy: Always
-      nodeSelector:
-        app: system-apps
+      - name: dotnetapp
+        image: akintolacr.azurecr.io/dotnetapp:latest
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
 
 ---
 
+# Prod Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: app1-nginx-clusterip-service
+  name: dotnetapp-service
   namespace: prod
-  labels:
-    app: app1-nginx
 spec:
-  type: LoadBalancer
   selector:
-    app: app1-nginx
+    app: dotnetapp
   ports:
-    - port: 80
-      targetPort: 80
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
