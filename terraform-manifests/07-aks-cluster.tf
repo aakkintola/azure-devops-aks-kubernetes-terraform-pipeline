@@ -65,9 +65,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
 # Added June 2023
 
-oms_agent {
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.insights.id
-}
+# oms_agent {
+#   log_analytics_workspace_id = azurerm_log_analytics_workspace.insights.id
+# }
 # Add On Profiles
 #  addon_profile {
 #    azure_policy {enabled =  true}
@@ -86,16 +86,16 @@ oms_agent {
 #    }
 #  }
 # Added June 2023
-azure_active_directory_role_based_access_control {
-  managed = true
-  admin_group_object_ids = [azuread_group.aks_administrators.id]
-}
+# azure_active_directory_role_based_access_control {
+#   managed = true
+#   admin_group_object_ids = [azuread_group.aks_administrators.id]
+# }
 
 # Windows Profile
-  windows_profile {
-    admin_username = var.windows_admin_username
-    admin_password = var.windows_admin_password
-  }
+  # windows_profile {
+  # #   admin_username = var.windows_admin_username
+  # #   admin_password = var.windows_admin_password
+  # # }
 
 # Linux Profile
   linux_profile {

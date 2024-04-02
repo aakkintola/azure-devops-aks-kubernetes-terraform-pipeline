@@ -21,7 +21,7 @@ variable "resource_group_name" {
   variable "environment" {
 #    type = string  
    description = "This variable defines the Environment"  
-# #   default = "qa"
+#   default = "qa"
   }
 
 
@@ -33,17 +33,17 @@ variable "ssh_public_key" {
   description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"  
 }
 
-# Windows Admin Username for k8s worker nodes
-variable "windows_admin_username" {
-  type = string
-  default = "azureuser"
-  description = "This variable defines the Windows admin username k8s Worker nodes"  
-}
+# # Windows Admin Username for k8s worker nodes
+# variable "windows_admin_username" {
+#   type = string
+#   default = "azureuser"
+#   description = "This variable defines the Windows admin username k8s Worker nodes"  
+# }
 
-# Windows Admin Password for k8s worker nodes
-variable "windows_admin_password" {
-  type = string
-  default = "P@ssw0rd123456"
-  description = "This variable defines the Windows admin password k8s Worker nodes"  
-}
+# # Windows Admin Password for k8s worker nodes
+# variable "windows_admin_password" {
+#   type = string
+#   default = "P@ssw0rd123456"
+#   description = "This variable defines the Windows admin password k8s Worker nodes"  
+# }
 

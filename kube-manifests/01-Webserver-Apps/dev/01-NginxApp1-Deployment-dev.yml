@@ -1,33 +1,41 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-world-service
-  namespace: dev
-spec:
-  selector:
-    app: hello-world
-  ports:
-  - protocol: "TCP"
-    port: 80
-    targetPort: 3000
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world-deployment
+  name: app1-nginx-deployment
   namespace: dev
+  labels:
+    app: app1-nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-world
+      app: app1-nginx
   template:
     metadata:
       labels:
-        app: hello-world
+        app: app1-nginx
     spec:
       containers:
-      - name: hello-world
-        image: akintolacr.azure.io/hello-world-image:latest
-        ports:
-        - containerPort: 3000
+        - name: app1-nginx
+          image: akintolacr.azurecr.io/dotnetapp:latest
+          ports:
+            - containerPort: 80
+      nodeSelector:
+        app: system-apps
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-nginx-clusterip-service
+  namespace: dev
+  labels:
+    app: app1-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: app1-nginx
+  ports:
+    - port: 80
+      targetPort: 80

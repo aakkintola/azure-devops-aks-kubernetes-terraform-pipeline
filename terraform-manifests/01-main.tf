@@ -31,12 +31,12 @@ terraform {
 
 
 # #Terraform State Storage to Azure Storage Container
-#   backend "azurerm" {
+  backend "azurerm" {
 #     resource_group_name  = "akintola-capstone-project"
 #     storage_account_name = "akterraformstatexlrwdrzs"
 #     container_name       = "akintola-tfstatefiles"
 #     key                  = "aks-$(DEV_ENVIRONMENT).tfstate"
-#   }
+  }
 }
 
 
