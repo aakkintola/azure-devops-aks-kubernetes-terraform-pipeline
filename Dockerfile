@@ -54,3 +54,6 @@ COPY --from=build /app .
 USER $APP_UID
 
 ENTRYPOINT ["dotnet", "dotnetapp.dll"]
+
+# Expose port 80
+EXPOSE 80
