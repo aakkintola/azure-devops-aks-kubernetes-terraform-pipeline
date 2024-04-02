@@ -7,10 +7,10 @@ RUN dotnet publish-o /app
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app .
+COPY --from=build /app/ouy .
 # 👇 set to use the non-root USER here
 USER $APP_UID 
-ENTRYPOINT ["./aspnetapp"]
+ENTRYPOINT ["dotnet", "dotnetapp.dll"]
 
 # Expose port 80
 EXPOSE 80
