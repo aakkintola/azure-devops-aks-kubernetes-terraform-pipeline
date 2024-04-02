@@ -2,40 +2,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dotnetapp-deployment
+  name: flask-deployment
   namespace: qa
   labels:
-    app: dotnetapp
+    app: flask
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dotnetapp
+      app: flask
   template:
     metadata:
       labels:
-        app: dotnetapp
+        app: flask
     spec:
       containers:
-      - name: dotnetapp
-        image: akintolacr.azurecr.io/dotnetapp:latest
+      - name: flask
+        image: akintolacr.azurecr.io/flask:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8000
         imagePullPolicy: Always
-    progressDeadlineSeconds: 600
 ---
 
 # QA Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: dotnetapp-service
+  name: flask-service
   namespace: qa
 spec:
   selector:
-    app: dotnetapp
+    app: flask
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
+    targetPort: 8000
   type: ClusterIP
