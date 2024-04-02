@@ -35,6 +35,6 @@ spec:
     app: dotnetapp
   ports:
   - protocol: TCP
-    port: 8080
+    port: 9999
     targetPort: 8080
   type: ClusterIP
