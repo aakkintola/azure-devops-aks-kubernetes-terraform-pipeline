@@ -20,6 +20,7 @@ spec:
           image: akintolacr.azurecr.io/dotnetapp:latest
           ports:
             - containerPort: 80
+          imagePullPolicy: Always
       nodeSelector:
         app: system-apps
 
