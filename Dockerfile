@@ -1,20 +1,16 @@
-# Use the official ASP.NET Core SDK image as a build environment
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /source
 
-# Copy the .csproj files and restore dependencies
-COPY *.csproj ./
-RUN dotnet restore
+COPY . .
+RUN dotnet publish-o /app
 
-# Copy the remaining files and build the project
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
+# final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "dotnetapp.dll"]
+COPY --from=build /app .
+# 👇 set to use the non-root USER here
+USER $APP_UID 
+ENTRYPOINT ["./aspnetapp"]
 
 # Expose port 80
 EXPOSE 80
