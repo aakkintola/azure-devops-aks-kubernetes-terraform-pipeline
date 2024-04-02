@@ -1,0 +1,7 @@
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\testapp.exe
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\appsettings.Development.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\appsettings.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\testapp.dll
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\testapp.deps.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\testapp.runtimeconfig.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\testapp\bin\Release\net8.0\publish\testapp.pdb

@@ -1,0 +1,7 @@
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\dotnetapp.exe
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\appsettings.Development.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\appsettings.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\dotnetapp.dll
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\dotnetapp.deps.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\dotnetapp.runtimeconfig.json
+C:\Users\User17\Desktop\capstone-project\pipeline-project\azure-devops-aks-kubernetes-terraform-pipeline\bin\Release\net8.0\publish\dotnetapp.pdb

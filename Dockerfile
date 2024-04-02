@@ -53,7 +53,4 @@ COPY --from=build /app .
 # and https://github.com/dotnet/dotnet-docker/discussions/4764
 USER $APP_UID
 
-ENTRYPOINT ["dotnet", "dotnetapp.dll"]
-
-# Expose port 80
-EXPOSE 80
+ENTRYPOINT ["dotnet", "testapp.dll"]
